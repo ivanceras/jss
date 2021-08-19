@@ -183,13 +183,13 @@ fn process_css_selector_map(
         if use_indents {
             buffer += " ";
         }
-        buffer += &process_css_values(indent, namespace, style_properties, use_indents);
+        buffer += &process_css_properties(indent, namespace, style_properties, use_indents);
     }
     buffer
 }
 
 /// This process the values used inside a css selector
-pub fn process_css_values(
+pub fn process_css_properties(
     indent: usize,
     namespace: Option<&str>,
     style_properties: &json::JsonValue,

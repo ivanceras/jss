@@ -1,4 +1,4 @@
-# jss
+# jss!
 
 [![Latest Version](https://img.shields.io/crates/v/jss.svg)](https://crates.io/crates/jss)
 [![Build Status](https://travis-ci.org/ivanceras/jss.svg?branch=master)](https://travis-ci.org/ivanceras/jss)

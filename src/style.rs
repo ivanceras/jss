@@ -16,7 +16,7 @@ macro_rules! style {
     ($($tokens:tt)+) => {
         {
             let json = $crate::json::object!{$($tokens)*};
-            $crate::process_css_values(0, None, &json, false)
+            $crate::process_css_properties(0, None, &json, false)
         }
     };
 }
@@ -409,8 +409,6 @@ pub(crate) fn match_name(style_name: &str) -> Option<&'static str> {
 
 #[cfg(test)]
 mod tests {
-    use super::*;
-
     #[test]
     fn simple_style() {
         let style = style! {background_color:"red", border: "1px solid green"};
