@@ -24,6 +24,23 @@ macro_rules! style {
     };
 }
 
+/// return the style name matching it's ident name version
+pub(crate) fn from_ident(ident: &str) -> Option<&'static str> {
+    if let Some(html_style) = HTML_STYLES.get(ident) {
+        return Some(*html_style);
+    } else {
+        SVG_STYLES.get(ident).map(|s| *s)
+    }
+}
+
+pub(crate) fn match_name(style_name: &str) -> Option<&'static str> {
+    HTML_STYLES
+        .iter()
+        .chain(SVG_STYLES.iter())
+        .find(|(_ident, style)| *style == &style_name)
+        .map(|(_ident, style)| *style)
+}
+
 /// A list of ident style in snake_case style
 /// [Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Properties_Reference)
 /// [Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference)
@@ -399,23 +416,6 @@ const HTML_STYLES: Lazy<BTreeMap<&'static str, &'static str>> = Lazy::new(|| {
         ("z_index", "z-index"),
     ])
 });
-
-/// return the style name matching it's ident name version
-pub(crate) fn from_ident(ident: &str) -> Option<&'static str> {
-    if let Some(html_style) = HTML_STYLES.get(ident) {
-        return Some(*html_style);
-    } else {
-        SVG_STYLES.get(ident).map(|s| *s)
-    }
-}
-
-pub(crate) fn match_name(style_name: &str) -> Option<&'static str> {
-    HTML_STYLES
-        .iter()
-        .chain(SVG_STYLES.iter())
-        .find(|(_ident, style)| *style == &style_name)
-        .map(|(_ident, style)| *style)
-}
 
 #[cfg(test)]
 mod tests {
