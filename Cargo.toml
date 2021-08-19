@@ -8,7 +8,11 @@ documentation = "https://docs.rs/jss"
 readme = "README.md"
 keywords = ["html", "css", "web"]
 edition = "2018"
-version = "0.2.0"
+version = "0.3.0"
+
+
+[badges]
+maintenance = { status = "actively-developed" }
 
 [dependencies]
 json = "0.12"
