@@ -30,10 +30,10 @@ let expected = r#"
 assert_eq!(expected,css);
 ```
 
-Ow, we forgot that escaping braces in rust strings is done with braces and we will have double braces all over our dynamic css.
+Oh!, we forgot that escaping braces in rust strings is done with braces and we will have double braces all over our dynamic css.
+It will just get worse when there are more variables added into it, keeping track of the format argument.
 
-
-jss! to the rescue:
+`jss!` to the rescue:
 
 ```rust
 use jss::prelude::*;
