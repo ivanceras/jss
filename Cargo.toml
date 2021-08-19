@@ -8,7 +8,7 @@ documentation = "https://docs.rs/jss"
 readme = "README.md"
 keywords = ["html", "css", "web"]
 edition = "2018"
-version = "0.3.0"
+version = "0.3.1"
 
 
 [badges]
