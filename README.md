@@ -54,8 +54,7 @@ assert_eq!(expected,css);
 
 ```
 
-Works with non-identifier style names too.
-We are using `snake_case` in the style names for a more pleasant look.
+Non-identifier style names can be written with `snake_case`, or using quotes on them.
 ```rust
 use jss::prelude::*;
 
@@ -65,6 +64,7 @@ let css = jss!(
         background_color: "red",
         "width": percent(100),
         "border-color": "red!important",
+        margin: px(5) + " auto"
     },
 
     ".hide .layer": {
@@ -72,7 +72,7 @@ let css = jss!(
     },
 );
 
-let expected = ".layer{border:1px solid green;background-color:red;width:100%;border-color:red!important;}.hide .layer{opacity:0;}";
+let expected = ".layer{border:1px solid green;background-color:red;width:100%;border-color:red!important;margin:5px auto;}.hide .layer{opacity:0;}";
 assert_eq!(expected, css);
 ```
 
