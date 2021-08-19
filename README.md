@@ -1,7 +1,7 @@
 # jss!
 
 [![Latest Version](https://img.shields.io/crates/v/jss.svg)](https://crates.io/crates/jss)
-[![Build Status](https://travis-ci.org/ivanceras/jss.svg?branch=master)](https://travis-ci.org/ivanceras/jss)
+[![Build Status](https://github.com/ivanceras/jss/actions/workflows/rust.yml/badge.svg)](https://github.com/ivanceras/jss/actions/workflows/rust.yml)
 [![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
 
 This crate provides an easy way to write dynamic css using json notation.
