@@ -155,10 +155,12 @@ macro_rules! jss_ns_pretty {
 /// process json to css transforming the selector
 /// if class name is specified
 pub fn process_css(namespace: Option<&str>, json: &json::JsonValue, use_indents: bool) -> String {
-    process_css_map(0, namespace, json, use_indents)
+    process_css_selector_map(0, namespace, json, use_indents)
 }
 
-fn process_css_map(
+/// This assumes that the key objects in json are selectors and the value is an object with the
+/// style names and their corresponding values
+fn process_css_selector_map(
     indent: usize,
     namespace: Option<&str>,
     css_map: &json::JsonValue,
@@ -186,7 +188,8 @@ fn process_css_map(
     buffer
 }
 
-pub(crate) fn process_css_values(
+/// This process the values used inside a css selector
+pub fn process_css_values(
     indent: usize,
     namespace: Option<&str>,
     style_properties: &json::JsonValue,
@@ -200,7 +203,10 @@ pub(crate) fn process_css_values(
     }
     for (prop, value) in style_properties.entries() {
         if value.is_object() {
-            buffer += &process_css_map(indent + 1, namespace, style_properties, use_indents);
+            // recursive call to process_css_selector_map to support multiple layer of json object used in
+            // complex css such as animation and media queries
+            buffer +=
+                &process_css_selector_map(indent + 1, namespace, style_properties, use_indents);
             if use_indents {
                 buffer += "\n";
             }
@@ -248,6 +254,7 @@ pub(crate) fn process_css_values(
     buffer
 }
 
+/// convenient function to create indent
 fn make_indent(n: usize, use_indents: bool) -> String {
     if use_indents {
         "    ".repeat(n)
@@ -257,7 +264,7 @@ fn make_indent(n: usize, use_indents: bool) -> String {
 }
 
 /// Prepend a namespace to the selector classes,
-/// It does not affect element selector
+/// It does not affect other selectors such element selector, #id selector
 /// example:
 /// ```rust
 /// use jss::selector_namespaced;

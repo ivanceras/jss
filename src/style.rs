@@ -2,6 +2,25 @@ use once_cell::sync::Lazy;
 use std::collections::BTreeMap;
 use std::iter::FromIterator;
 
+/// convenient method to create inline style for css usage.
+/// #Examples:
+/// ```rust
+/// use jss::style;
+///
+/// let style = style! {background_color:"red", border: "1px solid green"};
+/// let expected = r#"{background-color:red;border:1px solid green;}"#;
+/// assert_eq!(expected, style);
+/// ```
+#[macro_export]
+macro_rules! style {
+    ($($tokens:tt)+) => {
+        {
+            let json = $crate::json::object!{$($tokens)*};
+            $crate::process_css_values(0, None, &json, false)
+        }
+    };
+}
+
 /// A list of ident style in rust style
 pub const IDENT_STYLE: Lazy<BTreeMap<&'static str, &'static str>> = Lazy::new(|| {
     BTreeMap::from_iter([
@@ -386,16 +405,6 @@ pub(crate) fn match_name(style_name: &str) -> Option<&'static str> {
         .iter()
         .find(|(_ident, style)| *style == &style_name)
         .map(|(_ident, style)| *style)
-}
-
-#[macro_export]
-macro_rules! style {
-    ($($tokens:tt)+) => {
-        {
-            let json = $crate::json::object!{$($tokens)*};
-            crate::process_css_values(0, None, &json, false)
-        }
-    };
 }
 
 #[cfg(test)]
