@@ -76,4 +76,15 @@ let expected = ".layer{border:1px solid green;background-color:red;width:100%;bo
 assert_eq!(expected, css);
 ```
 
+```rust,ignore
+use jss::prelude::*;
+
+let width = 10;
+let css = jss!{
+    ".layer": {
+     "not-soo-awesome-style-name": px(width), // panicked at 'invalid style name: not-soo-awesome-style-name'
+    }
+};
+```
+
 License: MIT
