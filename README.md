@@ -118,9 +118,11 @@ let expected = r#".frame {
 assert_eq!(expected, css);
 ```
 
-
-Using invalid style names will panic. This will prevent you from making typo in the style names.
-
+Feature `strict` will prevent you from making typo on the style name.
+Using invalid style names will panic.
+```sh
+cargo test all --features = "strict"
+```
 ```rust,ignore
 use jss::prelude::*;
 

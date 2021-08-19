@@ -20,5 +20,5 @@ once_cell = "1.8"
 log = { version = "0.4"}
 
 [features]
-default = ["strict"]
+default = []
 strict = [] # panic if the used style is not on the listed IDENT_STYLE

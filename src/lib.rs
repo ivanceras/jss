@@ -1,3 +1,5 @@
+#![deny(warnings)]
+
 //! Provides convenient functions and macro to build dynamic css
 #![doc = include_str!("../README.md")]
 
@@ -205,7 +207,7 @@ fn process_css_selector_map(
 pub fn process_css_properties(
     indent: usize,
     namespace: Option<&str>,
-    classes: Option<&str>,
+    _classes: Option<&str>,
     style_properties: &json::JsonValue,
     use_indents: bool,
 ) -> String {
@@ -234,7 +236,7 @@ pub fn process_css_properties(
                         panic!(
                             "invalid style name: `{}` {}",
                             prop,
-                            if let Some(classes) = classes {
+                            if let Some(classes) = _classes {
                                 format!("in selector: `{}`", classes)
                             } else {
                                 "".to_string()
