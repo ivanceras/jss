@@ -2,7 +2,7 @@
 name = "jss"
 authors = [ "Jovansonlee Cesar <ivanceras@gmail.com>" ]
 license = "MIT"
-description = "Easily create dynamic css using json notation"
+description = "Create dynamic css easily using json notation"
 repository = "https://github.com/ivanceras/jss"
 documentation = "https://docs.rs/jss"
 readme = "README.md"
