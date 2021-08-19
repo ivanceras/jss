@@ -1,5 +1,9 @@
 # jss
 
+[![Latest Version](https://img.shields.io/crates/v/jss.svg)](https://crates.io/crates/jss)
+[![Build Status](https://travis-ci.org/ivanceras/jss.svg?branch=master)](https://travis-ci.org/ivanceras/jss)
+[![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
+
 This crate provides an easy way to write dynamic css using json notation.
 This gives you more convenient than you think.
 
@@ -31,7 +35,7 @@ assert_eq!(expected,css);
 ```
 
 Oh!, we forgot that escaping braces in rust strings is done with braces and we will have double braces all over our dynamic css.
-It will just get worse when there are more variables added into it, keeping track of the format argument.
+It will just get worse when there are more variables added into it, keeping track the order of the format argument.
 
 `jss!` to the rescue:
 
@@ -70,5 +74,6 @@ let css = jss!(
 
 let expected = ".layer{border:1px solid green;background-color:red;width:100%;border-color:red!important;}.hide .layer{opacity:0;}";
 assert_eq!(expected, css);
+```
 
 License: MIT
