@@ -19,7 +19,7 @@ macro_rules! style {
     ($($tokens:tt)+) => {
         {
             let json = $crate::json::object!{$($tokens)*};
-            $crate::process_css_properties(0, None, &json, false)
+            $crate::process_css_properties(0, None, None, &json, false)
         }
     };
 }

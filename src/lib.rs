@@ -188,7 +188,13 @@ fn process_css_selector_map(
         if use_indents {
             buffer += "\n";
         }
-        buffer += &process_css_properties(indent, namespace, style_properties, use_indents);
+        buffer += &process_css_properties(
+            indent,
+            namespace,
+            Some(classes),
+            style_properties,
+            use_indents,
+        );
         buffer += &make_indent(indent, use_indents);
         buffer += "}";
     }
@@ -199,6 +205,7 @@ fn process_css_selector_map(
 pub fn process_css_properties(
     indent: usize,
     namespace: Option<&str>,
+    classes: Option<&str>,
     style_properties: &json::JsonValue,
     use_indents: bool,
 ) -> String {
@@ -217,7 +224,29 @@ pub fn process_css_properties(
             let style_name = if let Some(style_name) = style::from_ident(prop) {
                 style_name
             } else {
-                style::match_name(prop).unwrap_or_else(|| panic!("invalid style name: {}", prop))
+                let matched_property = style::match_name(prop);
+                if let Some(matched_property) = matched_property {
+                    matched_property
+                } else {
+                    // if strict, do a panic
+                    #[cfg(feature = "strict")]
+                    {
+                        panic!(
+                            "invalid style name: `{}` {}",
+                            prop,
+                            if let Some(classes) = classes {
+                                format!("in selector: `{}`", classes)
+                            } else {
+                                "".to_string()
+                            }
+                        );
+                    }
+                    // if not strict return the prop as is
+                    #[cfg(not(feature = "strict"))]
+                    {
+                        prop
+                    }
+                }
             };
             let value_str = match value {
                 json::JsonValue::String(s) => s.to_string(),
