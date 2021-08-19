@@ -8,7 +8,7 @@ use std::iter::FromIterator;
 /// use jss::style;
 ///
 /// let style = style! {background_color:"red", border: "1px solid green"};
-/// let expected = r#"{background-color:red;border:1px solid green;}"#;
+/// let expected = r#"background-color:red;border:1px solid green;"#;
 /// assert_eq!(expected, style);
 /// ```
 #[macro_export]
@@ -412,7 +412,7 @@ mod tests {
     #[test]
     fn simple_style() {
         let style = style! {background_color:"red", border: "1px solid green"};
-        let expected = r#"{background-color:red;border:1px solid green;}"#;
+        let expected = r#"background-color:red;border:1px solid green;"#;
         assert_eq!(expected, style);
     }
 }

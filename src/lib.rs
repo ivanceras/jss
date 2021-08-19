@@ -1,7 +1,9 @@
 //! Provides convenient functions and macro to build dynamic css
 #![doc = include_str!("../README.md")]
 
+#[doc(hidden)]
 pub use json;
+
 pub mod prelude {
     pub use crate::*;
     pub use style::*;
@@ -11,7 +13,7 @@ pub mod prelude {
 pub mod style;
 pub mod units;
 
-/// build css using json notation
+/// Creates css using json notation
 /// ```rust
 /// use jss::jss;
 /// let css = jss!(
@@ -183,7 +185,13 @@ fn process_css_selector_map(
         if use_indents {
             buffer += " ";
         }
+        buffer += "{";
+        if use_indents {
+            buffer += "\n";
+        }
         buffer += &process_css_properties(indent, namespace, style_properties, use_indents);
+        buffer += &make_indent(indent, use_indents);
+        buffer += "}";
     }
     buffer
 }
@@ -197,10 +205,6 @@ pub fn process_css_properties(
 ) -> String {
     let mut buffer = String::new();
 
-    buffer += "{";
-    if use_indents {
-        buffer += "\n";
-    }
     for (prop, value) in style_properties.entries() {
         if value.is_object() {
             // recursive call to process_css_selector_map to support multiple layer of json object used in
@@ -248,8 +252,6 @@ pub fn process_css_properties(
             }
         }
     }
-    buffer += &make_indent(indent, use_indents);
-    buffer += "}";
 
     buffer
 }
