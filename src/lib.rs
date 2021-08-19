@@ -155,19 +155,17 @@ macro_rules! jss_ns_pretty {
 /// process json to css transforming the selector
 /// if class name is specified
 pub fn process_css(namespace: Option<&str>, json: &json::JsonValue, use_indents: bool) -> String {
-    let mut buffer = String::new();
-    buffer += &process_css_map(0, namespace, json.entries(), use_indents);
-    buffer
+    process_css_map(0, namespace, json, use_indents)
 }
 
 fn process_css_map(
     indent: usize,
     namespace: Option<&str>,
-    css_map: json::iterators::Entries,
+    css_map: &json::JsonValue,
     use_indents: bool,
 ) -> String {
     let mut buffer = String::new();
-    for (i, (classes, style_properties)) in css_map.enumerate() {
+    for (i, (classes, style_properties)) in css_map.entries().enumerate() {
         if i > 0 && use_indents {
             buffer += "\n";
         }
@@ -183,63 +181,70 @@ fn process_css_map(
         if use_indents {
             buffer += " ";
         }
-        buffer += "{";
-        if use_indents {
-            buffer += "\n";
-        }
-        for (prop, value) in style_properties.entries() {
-            if value.is_object() {
-                buffer += &process_css_map(
-                    indent + 1,
-                    namespace,
-                    style_properties.entries(),
-                    use_indents,
-                );
-                if use_indents {
-                    buffer += "\n";
-                }
+        buffer += &process_css_values(indent, namespace, style_properties, use_indents);
+    }
+    buffer
+}
+
+pub(crate) fn process_css_values(
+    indent: usize,
+    namespace: Option<&str>,
+    style_properties: &json::JsonValue,
+    use_indents: bool,
+) -> String {
+    let mut buffer = String::new();
+
+    buffer += "{";
+    if use_indents {
+        buffer += "\n";
+    }
+    for (prop, value) in style_properties.entries() {
+        if value.is_object() {
+            buffer += &process_css_map(indent + 1, namespace, style_properties, use_indents);
+            if use_indents {
+                buffer += "\n";
+            }
+        } else {
+            let style_name = if let Some(style_name) = style::from_ident(prop) {
+                style_name
             } else {
-                let style_name = if let Some(style_name) = style::from_ident(prop) {
-                    style_name
-                } else {
-                    style::match_name(prop)
-                        .unwrap_or_else(|| panic!("invalid style name: {}", prop))
-                };
-                let value_str = match value {
-                    json::JsonValue::String(s) => s.to_string(),
-                    json::JsonValue::Short(s) => s.to_string(),
-                    json::JsonValue::Number(v) => v.to_string(),
-                    json::JsonValue::Boolean(v) => v.to_string(),
-                    _ => {
-                        panic!(
-                            "supported values are String, Number or Bool only, found: {:?}",
-                            value
-                        )
-                    }
-                };
-                if use_indents {
-                    buffer += &format!(
-                        "{}{}: {};",
-                        make_indent(indent + 1, use_indents),
-                        style_name,
-                        value_str
-                    );
-                } else {
-                    buffer += &format!(
-                        "{}{}:{};",
-                        make_indent(indent + 1, use_indents),
-                        style_name,
-                        value_str
-                    );
+                style::match_name(prop).unwrap_or_else(|| panic!("invalid style name: {}", prop))
+            };
+            let value_str = match value {
+                json::JsonValue::String(s) => s.to_string(),
+                json::JsonValue::Short(s) => s.to_string(),
+                json::JsonValue::Number(v) => v.to_string(),
+                json::JsonValue::Boolean(v) => v.to_string(),
+                _ => {
+                    panic!(
+                        "supported values are String, Number or Bool only, found: {:?}",
+                        value
+                    )
                 }
-                if use_indents {
-                    buffer += "\n";
-                }
+            };
+            if use_indents {
+                buffer += &format!(
+                    "{}{}: {};",
+                    make_indent(indent + 1, use_indents),
+                    style_name,
+                    value_str
+                );
+            } else {
+                buffer += &format!(
+                    "{}{}:{};",
+                    make_indent(indent + 1, use_indents),
+                    style_name,
+                    value_str
+                );
+            }
+            if use_indents {
+                buffer += "\n";
             }
         }
-        buffer += &make_indent(indent, use_indents);
-        buffer += "}";
     }
+    buffer += &make_indent(indent, use_indents);
+    buffer += "}";
+
     buffer
 }
 
@@ -301,5 +306,19 @@ pub fn selector_namespaced(namespace: impl ToString, selector_classes: impl ToSt
             })
             .collect::<Vec<_>>()
             .join(" ")
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_selector_ns() {
+        assert_eq!(".frame", selector_namespaced("frame", "."));
+        assert_eq!(
+            ".frame__hide .frame__corner",
+            selector_namespaced("frame", ".hide .corner")
+        );
     }
 }

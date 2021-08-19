@@ -141,12 +141,3 @@ fn test_jss_ns_with_media_query() {
     println!("{}", css);
     assert_eq!(expected, css);
 }
-
-#[test]
-fn test_selector_ns() {
-    assert_eq!(".frame", selector_namespaced("frame", "."));
-    assert_eq!(
-        ".frame__hide .frame__corner",
-        selector_namespaced("frame", ".hide .corner")
-    );
-}
