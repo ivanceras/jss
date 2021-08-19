@@ -1,0 +1,16 @@
+[package]
+name = "jss"
+authors = [ "Jovansonlee Cesar <ivanceras@gmail.com>" ]
+license = "MIT"
+description = "Easily create dynamic css using json notation"
+repository = "https://github.com/ivanceras/jss"
+documentation = "https://docs.rs/jss"
+readme = "README.md"
+keywords = ["html", "css", "web"]
+edition = "2018"
+version = "0.1.0"
+
+[dependencies]
+json = "0.12"
+once_cell = "1.8"
+doc-comment = "0.3"
