@@ -1,6 +1,9 @@
 use once_cell::sync::Lazy;
 use std::collections::BTreeMap;
 use std::iter::FromIterator;
+use svg_style::SVG_STYLES;
+
+mod svg_style;
 
 /// convenient method to create inline style for css usage.
 /// #Examples:
@@ -21,8 +24,10 @@ macro_rules! style {
     };
 }
 
-/// A list of ident style in rust style
-pub const IDENT_STYLE: Lazy<BTreeMap<&'static str, &'static str>> = Lazy::new(|| {
+/// A list of ident style in snake_case style
+/// [Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Properties_Reference)
+/// [Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference)
+const HTML_STYLES: Lazy<BTreeMap<&'static str, &'static str>> = Lazy::new(|| {
     BTreeMap::from_iter([
         ("align_content", "align-content"),
         ("align_items", "align-items"),
@@ -397,12 +402,17 @@ pub const IDENT_STYLE: Lazy<BTreeMap<&'static str, &'static str>> = Lazy::new(||
 
 /// return the style name matching it's ident name version
 pub(crate) fn from_ident(ident: &str) -> Option<&'static str> {
-    IDENT_STYLE.get(ident).map(|s| *s)
+    if let Some(html_style) = HTML_STYLES.get(ident) {
+        return Some(*html_style);
+    } else {
+        SVG_STYLES.get(ident).map(|s| *s)
+    }
 }
 
 pub(crate) fn match_name(style_name: &str) -> Option<&'static str> {
-    IDENT_STYLE
+    HTML_STYLES
         .iter()
+        .chain(SVG_STYLES.iter())
         .find(|(_ident, style)| *style == &style_name)
         .map(|(_ident, style)| *style)
 }

@@ -6,7 +6,6 @@ pub use json;
 
 pub mod prelude {
     pub use crate::*;
-    pub use style::*;
     pub use units::*;
 }
 

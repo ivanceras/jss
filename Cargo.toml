@@ -17,3 +17,9 @@ maintenance = { status = "actively-developed" }
 [dependencies]
 json = "0.12"
 once_cell = "1.8"
+
+[feature]
+strict = [] # panic if the used style is not on the listed IDENT_STYLE
+warn-nostyle = [] # warn if the used style name is not on the listed IDENT_STYLE
+ignore-nostyle = [] #no warning if the used style name is not on the list
+
