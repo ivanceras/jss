@@ -76,6 +76,7 @@ macro_rules! jss_pretty {
 
 /// Create a css string using json notation and use namespace on the class selectors
 /// ```rust
+/// use jss::units::percent;
 /// let css = jss::jss_ns!("frame",
 ///     ".": {
 ///         display: "block",
@@ -88,7 +89,7 @@ macro_rules! jss_pretty {
 ///
 ///     "@media screen and (max-width: 800px)": {
 ///       ".layer": {
-///         width: "100%",
+///         width: percent(100),
 ///       }
 ///     },
 ///
