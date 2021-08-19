@@ -76,6 +76,51 @@ let expected = ".layer{border:1px solid green;background-color:red;width:100%;bo
 assert_eq!(expected, css);
 ```
 
+Use of name spaces in class selector
+```rust
+use jss::{jss_ns, units::percent};
+let css = jss::jss_ns_pretty!("frame",
+    ".": {
+        display: "block",
+    },
+
+    ".layer": {
+        background_color: "red",
+        border: "1px solid green",
+    },
+
+    "@media screen and (max-width: 800px)": {
+      ".layer": {
+        width: percent(100),
+      }
+    },
+
+    ".hide .layer": {
+        opacity: 0,
+    },
+);
+
+let expected = r#".frame {
+    display: block;
+}
+.frame__layer {
+    background-color: red;
+    border: 1px solid green;
+}
+@media screen and (max-width: 800px) {
+    .frame__layer {
+        width: 100%;
+    }
+}
+.frame__hide .frame__layer {
+    opacity: 0;
+}"#;
+assert_eq!(expected, css);
+```
+
+
+Using invalid style names will panic. This will prevent you from making typo in the style names.
+
 ```rust,ignore
 use jss::prelude::*;
 
