@@ -348,6 +348,31 @@ pub fn selector_namespaced(namespace: impl ToString, selector_classes: impl ToSt
     }
 }
 
+/// Prepend namespace to this class name.
+/// This is used in assigning the class name in an element.
+///
+/// #Examples:
+/// ```rust
+/// use jss::class_namespaced;
+///
+/// assert_eq!("frame__text-anim", class_namespaced("frame", "text-anim"));
+/// ```
+pub fn class_namespaced(namespace: impl ToString, class_names: impl ToString) -> String {
+    let namespace = namespace.to_string();
+    let class_names = class_names.to_string();
+    let class_trimmed = class_names.trim();
+
+    if class_trimmed.is_empty() {
+        namespace
+    } else {
+        class_trimmed
+            .split(" ")
+            .map(|part| format!("{}__{}", namespace, part.trim()))
+            .collect::<Vec<_>>()
+            .join(" ")
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
