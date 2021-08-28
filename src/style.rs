@@ -1,5 +1,6 @@
 use once_cell::sync::Lazy;
-use std::collections::BTreeMap;
+use std::collections::HashMap;
+use std::collections::HashSet;
 use std::iter::FromIterator;
 use svg_style::SVG_STYLES;
 
@@ -33,19 +34,25 @@ pub(crate) fn from_ident(ident: &str) -> Option<&'static str> {
     }
 }
 
+static ALL_STYLES: Lazy<HashSet<&'static str>> = Lazy::new(|| {
+    HashSet::from_iter(
+        HTML_STYLES
+            .iter()
+            .chain(SVG_STYLES.iter())
+            .map(|(_ident, style)| *style),
+    )
+});
+
 pub(crate) fn match_name(style_name: &str) -> Option<&'static str> {
-    HTML_STYLES
-        .iter()
-        .chain(SVG_STYLES.iter())
-        .find(|(_ident, style)| *style == &style_name)
-        .map(|(_ident, style)| *style)
+    ALL_STYLES.get(style_name).map(|s| *s)
 }
 
 /// A list of ident style in snake_case style
 /// [Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Properties_Reference)
 /// [Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference)
-static HTML_STYLES: Lazy<BTreeMap<&'static str, &'static str>> = Lazy::new(|| {
-    BTreeMap::from_iter([
+static HTML_STYLES: Lazy<HashMap<&'static str, &'static str>> = Lazy::new(|| {
+    log::trace!("Lazily creating html styles..");
+    HashMap::from_iter([
         ("align_content", "align-content"),
         ("align_items", "align-items"),
         ("align_self", "align-self"),
