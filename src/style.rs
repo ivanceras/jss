@@ -44,7 +44,7 @@ pub(crate) fn match_name(style_name: &str) -> Option<&'static str> {
 /// A list of ident style in snake_case style
 /// [Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Properties_Reference)
 /// [Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference)
-const HTML_STYLES: Lazy<BTreeMap<&'static str, &'static str>> = Lazy::new(|| {
+static HTML_STYLES: Lazy<BTreeMap<&'static str, &'static str>> = Lazy::new(|| {
     BTreeMap::from_iter([
         ("align_content", "align-content"),
         ("align_items", "align-items"),

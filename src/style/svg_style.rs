@@ -4,7 +4,7 @@ use std::iter::FromIterator;
 
 /// A list of svg style and their ident using snake_case
 /// [Reference](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute)
-pub(super) const SVG_STYLES: Lazy<BTreeMap<&'static str, &'static str>> = Lazy::new(|| {
+pub(super) static SVG_STYLES: Lazy<BTreeMap<&'static str, &'static str>> = Lazy::new(|| {
     BTreeMap::from_iter([
         ("accent_height", "accent-height"),
         ("accumulate", "accumulate"),
