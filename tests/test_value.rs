@@ -10,6 +10,15 @@ fn value_size() {
 }
 
 #[test]
+fn test_multi() {
+    assert_eq!(deg(10), "10deg");
+    assert_eq!(rad(10), "10rad");
+    assert_eq!(ms(500), "500ms");
+    assert_eq!(s(5), "5s");
+    assert_eq!(mm(9), "9mm");
+}
+
+#[test]
 fn test_px() {
     assert_eq!(px([10, 12]), "10px 12px");
     assert_eq!(px((10, 12)), "10px 12px");

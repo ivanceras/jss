@@ -189,6 +189,32 @@ declare_units! {
     percent => "%";
 }
 
+// angle units
+declare_units! {
+    /// Represent an angle in degrees
+    /// https://developer.mozilla.org/en-US/docs/Web/CSS/angle
+    deg;
+    /// Represent an angle in radians
+    /// https://developer.mozilla.org/en-US/docs/Web/CSS/angle
+    rad;
+    /// Represents an angle in gradians
+    /// https://developer.mozilla.org/en-US/docs/Web/CSS/angle
+    grad;
+    /// Represents an angle in a number of turns. One full circle is 1turn.
+    /// https://developer.mozilla.org/en-US/docs/Web/CSS/angle
+    turn;
+}
+
+// time units
+declare_units! {
+   /// Represents a time in seconds.
+   /// https://developer.mozilla.org/en-US/docs/Web/CSS/time
+   s;
+   /// Represents a time in milliseconds.
+   /// https://developer.mozilla.org/en-US/docs/Web/CSS/time
+   ms;
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
