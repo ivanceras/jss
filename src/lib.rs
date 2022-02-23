@@ -5,14 +5,17 @@
 
 #[doc(hidden)]
 pub use json;
+pub use value::Value;
 
 pub mod prelude {
     pub use crate::*;
     pub use units::*;
+    pub use value::Value;
 }
 
 pub mod style;
 pub mod units;
+mod value;
 
 /// Creates css using json notation
 /// ```rust

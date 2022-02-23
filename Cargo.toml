@@ -7,7 +7,7 @@ repository = "https://github.com/ivanceras/jss"
 documentation = "https://docs.rs/jss"
 readme = "README.md"
 keywords = ["html", "css", "web"]
-edition = "2018"
+edition = "2021"
 version = "0.4.0"
 
 

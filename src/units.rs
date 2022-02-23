@@ -1,4 +1,25 @@
 //! provides function and macro for html units such as px, %, em, etc.
+
+use crate::Value;
+
+#[inline]
+fn unit<V>(unit_name: &str, v: V) -> String
+where
+    V: Into<Value>,
+{
+    let value: Value = v.into();
+    match value {
+        Value::Vec(values) => values
+            .into_iter()
+            .map(|v| format!("{}{}", Into::<Value>::into(v), unit_name))
+            .collect::<Vec<_>>()
+            .join(" "),
+        _ => {
+            format!("{}{}", value, unit_name)
+        }
+    }
+}
+
 macro_rules! declare_units{
     (  $(
             $(#[$attr:meta])*
@@ -9,9 +30,11 @@ macro_rules! declare_units{
             $(#[$attr])*
             ///
             /// [MDN reference](https://developer.mozilla.org/en-US/docs/Learn/CSS/Building_blocks/Values_and_units)
-            pub fn $name(v: impl ToString) -> String {
-                      format!("{}{}", v.to_string(), stringify!($name))
-                }
+            pub fn $name<V>(v: V) -> String
+                where V: Into<Value>
+            {
+                unit(stringify!($name), v)
+            }
         )*
     };
     (
@@ -24,10 +47,11 @@ macro_rules! declare_units{
             $(#[$attr])*
             ///
             /// [MDN reference](https://developer.mozilla.org/en-US/docs/Learn/CSS/Building_blocks/Values_and_units)
-            pub fn $name(v: impl ToString) -> String
-                  {
-                      format!("{}{}", v.to_string(), $unit)
-                  }
+            pub fn $name<V>(v: V) -> String
+                where V: Into<Value>
+              {
+                  unit($unit, v)
+              }
         )*
     }
 }
