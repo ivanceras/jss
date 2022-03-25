@@ -87,6 +87,30 @@ impl Value {
         }
     }
 
+    /// converts to i32 if the variants are numerical representation
+    pub fn as_i32(&self) -> Option<i32> {
+        match self {
+            Value::Bool(_) => None,
+            Value::String(_v) => None,
+            Value::Str(_v) => None,
+            Value::Vec(_v) => None,
+            Value::U8(v) => Some(i32::from(*v)),
+            Value::U16(v) => Some(i32::from(*v)),
+            Value::U32(v) => Some(*v as i32),
+            Value::U64(v) => Some(*v as i32),
+            Value::U128(v) => Some(*v as i32),
+            Value::Usize(v) => Some(*v as i32),
+            Value::I8(v) => Some(i32::from(*v)),
+            Value::I16(v) => Some(i32::from(*v)),
+            Value::I32(v) => Some(*v),
+            Value::I64(v) => Some(*v as i32),
+            Value::I128(v) => Some(*v as i32),
+            Value::Isize(v) => Some(*v as i32),
+            Value::F32(v) => Some(*v as i32),
+            Value::F64(v) => Some(*v as i32),
+        }
+    }
+
     /// If this is Value::Vec variant, append the new value
     /// otherwise, turn this value into Value::Vec(Vec<Value>) variant
     /// and append the new value.
