@@ -13,6 +13,7 @@ pub mod prelude {
     pub use value::Value;
 }
 
+pub mod parser;
 pub mod style;
 pub mod units;
 mod value;
