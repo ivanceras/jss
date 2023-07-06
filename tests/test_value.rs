@@ -7,6 +7,7 @@ fn value_size() {
 
     assert_eq!(std::mem::size_of::<String>(), 24);
     assert_eq!(std::mem::size_of::<Vec<Value>>(), 24);
+    assert_eq!(std::mem::size_of::<u128>(), 16);
 }
 
 #[test]

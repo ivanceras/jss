@@ -3,6 +3,7 @@ use std::fmt;
 /// Wraps different primitive variants used as values in html
 /// This is needed since html attributes can have different value types
 /// such as checked(bool), name(String), tab_index(i32)
+/// Note: memory size of Value is 32 bytes, in comparison String is 24 bytes
 #[derive(Debug, PartialEq, Clone)]
 pub enum Value {
     /// bool value
