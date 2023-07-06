@@ -49,7 +49,7 @@ macro_rules! jss {
 /// Create css using jss macro with nice indentions
 /// ```rust
 /// let css = jss::jss_pretty!(
-///     ".layer": {
+///     ".layer1": {
 ///         background_color: "red",
 ///         border: "1px solid green",
 ///     },
@@ -60,13 +60,14 @@ macro_rules! jss {
 /// );
 ///
 /// let expected = "\
-/// .layer {\
+/// \n.layer1 {\
 /// \n    background-color: red;\
 /// \n    border: 1px solid green;\
 /// \n}\
 /// \n.hide .layer {\
 /// \n    opacity: 0;\
-/// \n}";
+/// \n}\
+/// \n";
 ///         assert_eq!(expected, css);
 /// ```
 #[macro_export]
@@ -83,7 +84,7 @@ macro_rules! jss_pretty {
 /// Create a css string using json notation and use namespace on the class selectors
 /// ```rust
 /// use jss::units::percent;
-/// let css = jss::jss_ns!("frame",
+/// let css = jss::jss_ns!("frame3",
 ///     ".": {
 ///         display: "block",
 ///     },
@@ -93,7 +94,7 @@ macro_rules! jss_pretty {
 ///         border: "1px solid green",
 ///     },
 ///
-///     "@media screen and (max-width: 800px)": {
+///     "@media screen and (max-width: 900px)": {
 ///       ".layer": {
 ///         width: percent(100),
 ///       }
@@ -104,7 +105,7 @@ macro_rules! jss_pretty {
 ///     },
 /// );
 ///
-/// let expected = r#".frame{display:block;}.frame__layer{background-color:red;border:1px solid green;}@media screen and (max-width: 800px){.frame__layer{width:100%;}}.frame__hide .frame__layer{opacity:0;}"#;
+/// let expected = r#".frame3{display:block;}.frame3__layer{background-color:red;border:1px solid green;}@media screen and (max-width: 900px){.frame3__layer{width:100%;}}.frame3__hide .frame3__layer{opacity:0;}"#;
 /// assert_eq!(expected, css);
 /// ```
 #[macro_export]
@@ -119,7 +120,7 @@ macro_rules! jss_ns {
 
 /// create css using jss with namespace macro with correct indentions
 ///  ```rust
-/// let css = jss::jss_ns_pretty!("frame",
+/// let css = jss::jss_ns_pretty!("frame2",
 ///     ".": {
 ///         display: "block",
 ///     },
@@ -135,16 +136,17 @@ macro_rules! jss_ns {
 /// );
 ///
 /// let expected = "\
-///     .frame {\
+///    \n.frame2 {\
 ///    \n    display: block;\
 ///    \n}\
-///    \n.frame__layer {\
+///    \n.frame2__layer {\
 ///    \n    background-color: red;\
 ///    \n    border: 1px solid green;\
 ///    \n}\
-///    \n.frame__hide .frame__layer {\
+///    \n.frame2__hide .frame2__layer {\
 ///    \n    opacity: 0;\
-///    \n}";
+///    \n}\
+///    \n";
 /// println!("{}", css);
 /// assert_eq!(expected, css);
 /// ```
@@ -173,8 +175,8 @@ fn process_css_selector_map(
     use_indents: bool,
 ) -> String {
     let mut buffer = String::new();
-    for (i, (classes, style_properties)) in css_map.entries().enumerate() {
-        if i > 0 && use_indents {
+    for (classes, style_properties) in css_map.entries() {
+        if use_indents {
             buffer += "\n";
         }
         if let Some(namespace) = &namespace {
@@ -202,6 +204,9 @@ fn process_css_selector_map(
         );
         buffer += &make_indent(indent, use_indents);
         buffer += "}";
+    }
+    if use_indents {
+        buffer += "\n";
     }
     buffer
 }

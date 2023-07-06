@@ -72,13 +72,15 @@ fn test_jss_pretty() {
         },
     );
 
-    let expected = r#".layer {
+    let expected = r#"
+.layer {
     background-color: red;
     border: 1px solid green;
 }
 .hide .layer {
     opacity: 0;
-}"#;
+}
+"#;
     println!("{}", css);
     assert_eq!(expected, css);
 }
@@ -100,7 +102,8 @@ fn test_jss_ns_pretty() {
         },
     );
 
-    let expected = r#".frame {
+    let expected = r#"
+.frame {
     display: block;
 }
 .frame__layer {
@@ -109,7 +112,8 @@ fn test_jss_ns_pretty() {
 }
 .frame__hide .frame__layer {
     opacity: 0;
-}"#;
+}
+"#;
     println!("{}", css);
     assert_eq!(expected, css);
 }

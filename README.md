@@ -100,7 +100,8 @@ let css = jss::jss_ns_pretty!("frame",
     },
 );
 
-let expected = r#".frame {
+let expected = r#"
+.frame {
     display: block;
 }
 .frame__layer {
@@ -108,13 +109,16 @@ let expected = r#".frame {
     border: 1px solid green;
 }
 @media screen and (max-width: 800px) {
+
     .frame__layer {
         width: 100%;
     }
+
 }
 .frame__hide .frame__layer {
     opacity: 0;
-}"#;
+}
+"#;
 assert_eq!(expected, css);
 ```
 
