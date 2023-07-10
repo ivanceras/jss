@@ -9,10 +9,12 @@ pub use value::Value;
 
 pub mod prelude {
     pub use crate::*;
+    pub use fns::*;
     pub use units::*;
     pub use value::Value;
 }
 
+mod fns;
 pub mod style;
 pub mod units;
 mod value;

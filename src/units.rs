@@ -1,6 +1,7 @@
 //! provides function and macro for html units such as px, %, em, etc.
 
-use crate::Value;
+pub use crate::fns::rgb;
+use crate::value::Value;
 
 #[inline]
 fn unit<V>(unit_name: &str, v: V) -> String

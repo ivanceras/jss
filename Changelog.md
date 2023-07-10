@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.6.1
+- add function `rgb`
+
 ## 0.6.0
 - **breaking** formatting on the pretty variant now adds new line on start and end of the generated css style.
 
